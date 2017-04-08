@@ -994,10 +994,12 @@ public class SlidingMenu extends RelativeLayout {
 		int bottomPadding = insets.bottom;
 		if (Build.VERSION.SDK_INT >= 21) {
 			Resources resources = getContent().getResources();
-			int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-			if (resourceId > 0) {
-				bottomPadding += resources.getDimensionPixelSize(resourceId);
-			}
+            if(hasNavBar(resources)) {
+                int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+                if (resourceId > 0) {
+                    bottomPadding += resources.getDimensionPixelSize(resourceId);
+                }
+            }
 		}
 		if (!mActionbarOverlay) {
 			Log.v(TAG, "setting padding!");
@@ -1005,6 +1007,14 @@ public class SlidingMenu extends RelativeLayout {
 		}
 		return true;
 	}
+
+    public boolean hasNavBar (Resources resources)
+    {
+        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        return id > 0 && resources.getBoolean(id);
+    }
+
+
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void manageLayers(float percentOpen) {
